@@ -501,7 +501,10 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
         NSInteger sectionIndex = [cache.sections indexOfObject:cacheObject.section];
         NSInteger rowIndex = [cacheObject.section.objects indexOfObject:cacheObject];
         
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+        NSIndexPath *indexPath = nil;
+        if ((sectionIndex != NSNotFound) && (rowIndex != NSNotFound)) {
+             [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+        }
         
         return indexPath;
     }
@@ -523,7 +526,10 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
         NSInteger sectionIndex = [cache.sections indexOfObject:cacheObject.section];
         NSInteger rowIndex = [cacheObject.section.objects indexOfObject:cacheObject];
         
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+        NSIndexPath *indexPath = nil;
+        if ((sectionIndex != NSNotFound) && (rowIndex != NSNotFound)) {
+            indexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+        }
         
         return indexPath;
     }
@@ -662,6 +668,9 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
             RLMResults *sections = [RBQSectionCacheObject objectsInRealm:cacheRealm withPredicate:predicate];
             RBQSectionCacheObject *section = sections.firstObject;
             NSUInteger row = index.unsignedIntegerValue - section.firstObjectIndex;
+            if (row >= section.objects.count) {
+                continue; //Ignore elements that are out of bounds
+            }
             RBQObjectCacheObject *objectCache = [section.objects objectAtIndex:row];
             safeObject = [[RBQSafeRealmObject alloc] initWithClassName:objectCache.className
                                                        primaryKeyValue:objectCache.primaryKeyValue
@@ -902,7 +911,9 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
                 // Remove the object from the section
                 RBQSectionCacheObject *section = objectChange.previousCacheObject.section;
                 
-                [section.objects removeObjectAtIndex:objectChange.previousIndexPath.row];
+                if (objectChange.previousIndexPath.row < section.objects.count) {
+                    [section.objects removeObjectAtIndex:objectChange.previousIndexPath.row];
+                }
                 
                 // Remove the object
                 [state.cacheRealm deleteObject:objectChange.previousCacheObject];
