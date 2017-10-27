@@ -888,13 +888,14 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
                 [state.cache.realm deleteObject:sectionChange.section];
             }
             else if (sectionChange.changeType == NSFetchedResultsChangeInsert) {
-                
-#ifdef DEBUG
-                NSAssert(sectionChange.updatedIndex.unsignedIntegerValue <= state.cache.sections.count, @"Attemting to insert at index beyond bounds!");
-#endif
                 // Add the section to the cache
+                NSInteger insertIndex = sectionChange.updatedIndex.unsignedIntegerValue;
+                if (insertIndex >= state.cache.sections.count)
+                {
+                    insertIndex = state.cache.sections.count - 1;
+                }
                 [state.cache.sections insertObject:sectionChange.section
-                                           atIndex:sectionChange.updatedIndex.unsignedIntegerValue];
+                                           atIndex:insertIndex];
             }
         }
     }
