@@ -890,9 +890,9 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
             else if (sectionChange.changeType == NSFetchedResultsChangeInsert) {
                 // Add the section to the cache
                 NSInteger insertIndex = sectionChange.updatedIndex.unsignedIntegerValue;
-                if (insertIndex >= state.cache.sections.count)
+                if (insertIndex > state.cache.sections.count)
                 {
-                    insertIndex = state.cache.sections.count - 1;
+                    insertIndex = state.cache.sections.count;
                 }
                 [state.cache.sections insertObject:sectionChange.section
                                            atIndex:insertIndex];
@@ -932,9 +932,9 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
                                        forPrimaryKey:objectChange.updatedCacheObject.sectionKeyPathValue];
                 
                 NSInteger insertIndex = objectChange.updatedIndexpath.row;
-                if (insertIndex >= section.objects.count)
+                if (insertIndex > section.objects.count)
                 {
-                    insertIndex = section.objects.count - 1;
+                    insertIndex = section.objects.count;
                 }
                 [section.objects insertObject:objectChange.updatedCacheObject
                                       atIndex:insertIndex];
@@ -957,9 +957,9 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
                                        forPrimaryKey:objectChange.updatedCacheObject.sectionKeyPathValue];
                 
                 NSInteger insertIndex = objectChange.updatedIndexpath.row;
-                if (insertIndex >= section.objects.count)
+                if (insertIndex > section.objects.count)
                 {
-                    insertIndex = section.objects.count - 1;
+                    insertIndex = section.objects.count;
                 }
                 
                 [section.objects insertObject:objectChange.updatedCacheObject
