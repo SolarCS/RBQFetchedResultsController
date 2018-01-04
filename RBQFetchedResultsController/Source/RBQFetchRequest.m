@@ -61,6 +61,19 @@ realmConfiguration = _realmConfiguration;
         fetchResults = [fetchResults objectsWithPredicate:self.predicate];
     }
     
+    // If we have distinctBy
+    if (self.distinctBy.count > 0) {
+        SEL distinctSelector = NSSelectorFromString(@"distinctResultsUsingKeyPaths:");
+        if ([fetchResults respondsToSelector:distinctSelector]) {
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            fetchResults = [fetchResults performSelector:distinctSelector withObject:self.distinctBy];
+            #pragma clang diagnostic pop
+        }else {
+            @throw [NSException exceptionWithName:@"RBQException" reason:@"RLMResults doesn't respond to distinctResultsUsingKeyPaths: - distinctBy cannot work" userInfo:nil];
+        }
+    }
+    
     // If we have sort descriptors then use them
     if (self.sortDescriptors.count > 0) {
         fetchResults = [fetchResults sortedResultsUsingDescriptors:self.sortDescriptors];

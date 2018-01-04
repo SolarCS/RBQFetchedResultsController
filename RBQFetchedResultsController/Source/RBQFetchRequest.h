@@ -47,6 +47,10 @@
  */
 @property(nonatomic, strong, nullable) NSArray<RLMSortDescriptor *> *sortDescriptors;
 
+/**
+ * Array of distinct keyPaths
+ */
+@property(nonatomic, strong, nullable) NSArray<NSString *> *distinctBy;
 
 /**
  *  Constructor method to create a fetch request for a given entity name in a specific Realm.
