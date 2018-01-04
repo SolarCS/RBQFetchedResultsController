@@ -55,10 +55,10 @@ id NULL_IF_NIL(id x) {return x ? x : NSNull.null;}
                                                                         inRealm:realm
                                                                       predicate:predicate];
     
-    RLMSortDescriptor *sortDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"sortIndex"
+    RLMSortDescriptor *sortDescriptor = [RLMSortDescriptor sortDescriptorWithKeyPath:@"sortIndex"
                                                                             ascending:YES];
     
-    RLMSortDescriptor *sortDescriptorSection = [RLMSortDescriptor sortDescriptorWithProperty:@"sectionName"
+    RLMSortDescriptor *sortDescriptorSection = [RLMSortDescriptor sortDescriptorWithKeyPath:@"sectionName"
                                                                                    ascending:YES];
     
     fetchRequest.sortDescriptors = @[sortDescriptorSection,sortDescriptor];

@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   ]
   s.exclude_files = "RBQFetchedResultsController/Source/Swift/*"
   s.requires_arc = true
-  s.dependency "Realm", ">=1.0.0"
+  s.dependency "Realm", ">=3.0.0"
   s.dependency "RBQSafeRealmObject"
   s.dependency "RealmUtilities"
 end
