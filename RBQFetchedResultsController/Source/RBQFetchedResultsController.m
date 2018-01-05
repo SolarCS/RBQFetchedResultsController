@@ -708,7 +708,14 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
     
     CFRunLoopPerformBlock(self.notificationRunLoop.getCFRunLoop, kCFRunLoopDefaultMode, ^{
         if (weakSelf.notificationToken) {
-            [weakSelf.notificationToken invalidate];
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            if ([weakSelf.notificationToken respondsToSelector:NSSelectorFromString(@"invalidate")]) {
+                [weakSelf.notificationToken performSelector:NSSelectorFromString(@"invalidate")];
+            }else if ([weakSelf.notificationToken respondsToSelector:NSSelectorFromString(@"stop")]) {
+                [weakSelf.notificationToken performSelector:NSSelectorFromString(@"stop")];
+            }
+            #pragma clang diagnostic pop
             weakSelf.notificationToken = nil;
             weakSelf.notificationCollection = nil;
         }
@@ -740,7 +747,14 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
 {
     // Remove the notifications
     if (self.notificationToken) {
-        [self.notificationToken invalidate];
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        if ([self.notificationToken respondsToSelector:NSSelectorFromString(@"invalidate")]) {
+            [self.notificationToken performSelector:NSSelectorFromString(@"invalidate")];
+        }else if ([self.notificationToken respondsToSelector:NSSelectorFromString(@"stop")]) {
+            [self.notificationToken performSelector:NSSelectorFromString(@"stop")];
+        }
+        #pragma clang diagnostic pop
         self.notificationToken = nil;
     }
     
