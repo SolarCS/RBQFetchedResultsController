@@ -523,8 +523,14 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
         [RBQObjectCacheObject cacheObjectInRealm:cacheRealm
                                        forObject:object];
         
-        NSInteger sectionIndex = [cache.sections indexOfObject:cacheObject.section];
-        NSInteger rowIndex = [cacheObject.section.objects indexOfObject:cacheObject];
+        NSInteger sectionIndex = NSNotFound;
+        NSInteger rowIndex = NSNotFound;
+        if (cacheObject) {
+            rowIndex = [cacheObject.section.objects indexOfObject:cacheObject];
+            if (cacheObject.section) {
+                sectionIndex = [cache.sections indexOfObject:cacheObject.section];
+            }
+        }
         
         NSIndexPath *indexPath = nil;
         if ((sectionIndex != NSNotFound) && (rowIndex != NSNotFound)) {
