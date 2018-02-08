@@ -99,6 +99,10 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
 
 @implementation RBQStateObject
 
+- (RBQControllerCacheObject *)cache {
+    return ![_cache isInvalidated] ? _cache : nil;
+}
+
 @end
 
 #pragma mark - RBQChangeSetsObject
