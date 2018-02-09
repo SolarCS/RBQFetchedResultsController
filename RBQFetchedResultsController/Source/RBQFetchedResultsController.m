@@ -1275,6 +1275,9 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
     
     // Loop through to identify the new sections in fetchResults
     for (RBQSectionCacheObject *section in oldAndChange) {
+        if (section.isInvalidated) {
+            continue;
+        }
         
         id<RLMCollection> sectionResults = nil;
         
