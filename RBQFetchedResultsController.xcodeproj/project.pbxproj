@@ -12,8 +12,6 @@
 		A0519B0D1C56DDB300307EB5 /* RBQFRC.h in Headers */ = {isa = PBXBuildFile; fileRef = A0519B0B1C56DDB300307EB5 /* RBQFRC.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0519B3F1C56EC9A00307EB5 /* RBQControllerCacheObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A0519B0F1C56EC9A00307EB5 /* RBQControllerCacheObject.h */; };
 		A0519B401C56EC9A00307EB5 /* RBQControllerCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A0519B101C56EC9A00307EB5 /* RBQControllerCacheObject.m */; };
-		A0519B411C56EC9A00307EB5 /* RBQObjectCacheObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A0519B111C56EC9A00307EB5 /* RBQObjectCacheObject.h */; };
-		A0519B421C56EC9A00307EB5 /* RBQObjectCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A0519B121C56EC9A00307EB5 /* RBQObjectCacheObject.m */; };
 		A0519B431C56EC9A00307EB5 /* RBQSectionCacheObject.h in Headers */ = {isa = PBXBuildFile; fileRef = A0519B131C56EC9A00307EB5 /* RBQSectionCacheObject.h */; };
 		A0519B441C56EC9A00307EB5 /* RBQSectionCacheObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A0519B141C56EC9A00307EB5 /* RBQSectionCacheObject.m */; };
 		A0519B451C56EC9A00307EB5 /* RBQFetchedResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = A0519B151C56EC9A00307EB5 /* RBQFetchedResultsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -60,8 +58,6 @@
 		A0519B0B1C56DDB300307EB5 /* RBQFRC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBQFRC.h; path = RBQFetchedResultsController/RBQFRC.h; sourceTree = SOURCE_ROOT; };
 		A0519B0F1C56EC9A00307EB5 /* RBQControllerCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBQControllerCacheObject.h; sourceTree = "<group>"; };
 		A0519B101C56EC9A00307EB5 /* RBQControllerCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBQControllerCacheObject.m; sourceTree = "<group>"; };
-		A0519B111C56EC9A00307EB5 /* RBQObjectCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBQObjectCacheObject.h; sourceTree = "<group>"; };
-		A0519B121C56EC9A00307EB5 /* RBQObjectCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBQObjectCacheObject.m; sourceTree = "<group>"; };
 		A0519B131C56EC9A00307EB5 /* RBQSectionCacheObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBQSectionCacheObject.h; sourceTree = "<group>"; };
 		A0519B141C56EC9A00307EB5 /* RBQSectionCacheObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBQSectionCacheObject.m; sourceTree = "<group>"; };
 		A0519B151C56EC9A00307EB5 /* RBQFetchedResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RBQFetchedResultsController.h; path = RBQFetchedResultsController/Source/RBQFetchedResultsController.h; sourceTree = SOURCE_ROOT; };
@@ -167,8 +163,6 @@
 			children = (
 				A0519B0F1C56EC9A00307EB5 /* RBQControllerCacheObject.h */,
 				A0519B101C56EC9A00307EB5 /* RBQControllerCacheObject.m */,
-				A0519B111C56EC9A00307EB5 /* RBQObjectCacheObject.h */,
-				A0519B121C56EC9A00307EB5 /* RBQObjectCacheObject.m */,
 				A0519B131C56EC9A00307EB5 /* RBQSectionCacheObject.h */,
 				A0519B141C56EC9A00307EB5 /* RBQSectionCacheObject.m */,
 			);
@@ -223,7 +217,6 @@
 				A0519B471C56EC9A00307EB5 /* RBQFetchRequest.h in Headers */,
 				A0519B0D1C56DDB300307EB5 /* RBQFRC.h in Headers */,
 				A0519B451C56EC9A00307EB5 /* RBQFetchedResultsController.h in Headers */,
-				A0519B411C56EC9A00307EB5 /* RBQObjectCacheObject.h in Headers */,
 				A0519B3F1C56EC9A00307EB5 /* RBQControllerCacheObject.h in Headers */,
 				A0519B431C56EC9A00307EB5 /* RBQSectionCacheObject.h in Headers */,
 			);
@@ -366,7 +359,6 @@
 			files = (
 				A0519B441C56EC9A00307EB5 /* RBQSectionCacheObject.m in Sources */,
 				A0519B481C56EC9A00307EB5 /* RBQFetchRequest.m in Sources */,
-				A0519B421C56EC9A00307EB5 /* RBQObjectCacheObject.m in Sources */,
 				A0519B461C56EC9A00307EB5 /* RBQFetchedResultsController.m in Sources */,
 				A0519B401C56EC9A00307EB5 /* RBQControllerCacheObject.m in Sources */,
 			);

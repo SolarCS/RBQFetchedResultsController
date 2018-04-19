@@ -157,7 +157,7 @@
 /**
  *  Deletes the cached section information with the given name
  *
- *  If name is not nil, then the cache will be cleaned, but not deleted from disk. 
+ *  If name is not nil, then the cache will be cleaned, but not deleted from disk.
  *
  *  If name is nil, then all caches will be deleted by removing the files from disk.
  *
@@ -199,7 +199,7 @@
 - (BOOL)performFetch;
 
 /**
- *  Call this method to force the cache to be rebuilt. 
+ *  Call this method to force the cache to be rebuilt.
  *
  *  A potential use case would be to call this in a @catch after trying to call endUpdates for the table view. If an exception is thrown, then the cache will be rebuilt and you can call reloadData on the table view.
  */
@@ -242,17 +242,8 @@
 - (NSUInteger)sectionIndexForSectionName:(nonnull NSString *)sectionName;
 
 /**
- *  Retrieve the RBQSafeRealmObject for a given index path
- *
- *  @param indexPath the index path of the object
- *
- *  @return RBQSafeRealmObject
- */
-- (nullable RBQSafeRealmObject *)safeObjectAtIndexPath:(nonnull NSIndexPath *)indexPath;
-
-/**
  *  Retrieve the RLMObject for a given index path
- *  
+ *
  *  @warning Returned object is not thread-safe.
  *
  *  @param indexPath the index path of the object
@@ -260,15 +251,6 @@
  *  @return RLMObject
  */
 - (nullable id)objectAtIndexPath:(nonnull NSIndexPath *)indexPath;
-
-/**
- *  Retrieve the index path for a safe object in the fetch request
- *
- *  @param safeObject RBQSafeRealmObject
- *
- *  @return index path of the object
- */
-- (nullable NSIndexPath *)indexPathForSafeObject:(nonnull RBQSafeRealmObject *)safeObject;
 
 /**
  *  Retrieve the index path for a RLMObject in the fetch request
@@ -288,6 +270,6 @@
  */
 - (void)updateFetchRequest:(nonnull RBQFetchRequest *)fetchRequest
         sectionNameKeyPath:(nullable NSString *)sectionNameKeyPath
-            andPerformFetch:(BOOL)performFetch;
+           andPerformFetch:(BOOL)performFetch;
 
 @end

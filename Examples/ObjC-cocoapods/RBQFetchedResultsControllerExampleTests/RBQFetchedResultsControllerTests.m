@@ -23,7 +23,7 @@
     [self insertDifferentSectionNameTestObject];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"inTable = YES"];
     RBQFetchRequest *fetchRequest = [RBQFetchRequest fetchRequestWithEntityName:@"TestObject" inRealm:[RLMRealm defaultRealm] predicate:predicate];
-    RLMSortDescriptor *sectionNameSortDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"sectionName" ascending:YES];
+    RLMSortDescriptor *sectionNameSortDescriptor = [RLMSortDescriptor sortDescriptorWithKeyPath:@"sectionName" ascending:YES];
     fetchRequest.sortDescriptors = @[sectionNameSortDescriptor];
     RBQFetchedResultsController *fetchedResultsController = [[RBQFetchedResultsController alloc] initWithFetchRequest:fetchRequest sectionNameKeyPath:@"sectionName" cacheName:@"cache"];
     [fetchedResultsController performFetch];
@@ -42,7 +42,7 @@
     RBQFetchedResultsController *fetchedResultsController = [[RBQFetchedResultsController alloc] initWithFetchRequest:fetchRequest sectionNameKeyPath:@"sectionName" cacheName:@"cache"];
     [fetchedResultsController performFetch];
     
-    XCTAssert([fetchedResultsController numberOfSections] == 10);
+    XCTAssert([fetchedResultsController numberOfSections] == 2);
     XCTAssert([fetchedResultsController.sectionNameKeyPath isEqualToString:@"sectionName"]);
     XCTAssert([fetchedResultsController.cacheName isEqualToString:@"cache"]);
     XCTAssert(fetchedResultsController.fetchedObjects.count == 10);
@@ -53,7 +53,7 @@
     [self insertDifferentSectionNameTestObject];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"inTable = YES"];
     RBQFetchRequest *fetchRequest = [RBQFetchRequest fetchRequestWithEntityName:@"TestObject" inRealm:[RLMRealm defaultRealm] predicate:predicate];
-    RLMSortDescriptor *sectionNameSortDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"sectionName" ascending:YES];
+    RLMSortDescriptor *sectionNameSortDescriptor = [RLMSortDescriptor sortDescriptorWithKeyPath:@"sectionName" ascending:YES];
     fetchRequest.sortDescriptors = @[sectionNameSortDescriptor];
     RBQFetchedResultsController *fetchedResultsController = [[RBQFetchedResultsController alloc] initWithFetchRequest:fetchRequest sectionNameKeyPath:@"sectionName" cacheName:@"cache"];
     [fetchedResultsController performFetch];
@@ -80,14 +80,14 @@
     [self insertDifferentSectionNameTestObject];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"inTable = YES"];
     RBQFetchRequest *fetchRequest = [RBQFetchRequest fetchRequestWithEntityName:@"TestObject" inRealm:[RLMRealm defaultRealm] predicate:predicate];
-    RLMSortDescriptor *sectionNameSortDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"sectionName" ascending:YES];
+    RLMSortDescriptor *sectionNameSortDescriptor = [RLMSortDescriptor sortDescriptorWithKeyPath:@"sectionName" ascending:YES];
     fetchRequest.sortDescriptors = @[sectionNameSortDescriptor];
     RBQFetchedResultsController *fetchedResultsController = [[RBQFetchedResultsController alloc] initWithFetchRequest:fetchRequest sectionNameKeyPath:@"sectionName" cacheName:@"cache"];
     [fetchedResultsController performFetch];
     XCTAssert(fetchedResultsController.fetchedObjects.count == 10);
     NSPredicate *anotherPredicate = [NSPredicate predicateWithFormat:@"inTable = NO"];
     RBQFetchRequest *anotherFetchRequest = [RBQFetchRequest fetchRequestWithEntityName:@"TestObject" inRealm:[RLMRealm defaultRealm] predicate: anotherPredicate];
-    [fetchedResultsController updateFetchRequest:anotherFetchRequest sectionNameKeyPath:@"sectionName" andPeformFetch:YES];
+    [fetchedResultsController updateFetchRequest:anotherFetchRequest sectionNameKeyPath:@"sectionName" andPerformFetch:YES];
     XCTAssert(fetchedResultsController.fetchedObjects.count == 0);
 }
 

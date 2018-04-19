@@ -94,7 +94,7 @@
                                                                         inRealm:self.inMemoryRealm
                                                                       predicate:predicate];
     
-    RLMSortDescriptor *sortDescriptor = [RLMSortDescriptor sortDescriptorWithProperty:@"sortIndex"
+    RLMSortDescriptor *sortDescriptor = [RLMSortDescriptor sortDescriptorWithKeyPath:@"sortIndex"
                                                                             ascending:YES];
     
     fetchRequest.sortDescriptors = @[sortDescriptor];

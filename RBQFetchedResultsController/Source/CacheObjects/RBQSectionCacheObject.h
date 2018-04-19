@@ -7,9 +7,9 @@
 //
 
 #import <Realm/Realm.h>
-#import "RBQObjectCacheObject.h"
 
-RLM_ARRAY_TYPE(RBQObjectCacheObject)
+@interface RLMSortDescriptor (RBQCategory) <NSCoding>
+@end
 
 /**
  * Internal object used by RBQFetchedResultsController cache. Object represents a section within the FRC cache.
@@ -24,19 +24,16 @@ RLM_ARRAY_TYPE(RBQObjectCacheObject)
 @property NSString *name;
 
 /**
- *  Index of the first object contained within the section
+ *  Original RLMObject class name
  */
-@property NSInteger firstObjectIndex;
+@property NSString *className;
 
 /**
- *  Index of the first object contained within the section
+ *  Data to reproduce section query
  */
-@property NSInteger lastObjectIndex;
-
-/**
- *  Sorted RBQFetchedResultsCacheObjects in section
- */
-@property RLMArray<RBQObjectCacheObject> *objects;
+@property NSData *predicateData;
+@property NSData *sortDescriptorsData;
+@property NSData *distinctByData;
 
 /**
  *  Create RBQSectionCacheObject with a given section name

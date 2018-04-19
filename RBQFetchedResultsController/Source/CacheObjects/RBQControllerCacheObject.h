@@ -59,10 +59,7 @@ RLM_ARRAY_TYPE(RBQSectionCacheObject)
  */
 @property RLMArray<RBQSectionCacheObject> *sections;
 
-/**
- *  All RBQFetchedResultsCacheObjects in cache
- */
-@property RLMArray<RBQObjectCacheObject> *objects;
+@property NSInteger objectsCount;
 
 /**
  *  Create RBQFetchedResultsControllerCacheObject with a name and RBQFetchRequest hash (both used for identification)
