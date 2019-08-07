@@ -945,7 +945,7 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
             }
             else if (objectChange.changeType == NSFetchedResultsChangeInsert) {
                 // Insert the object
-                [state.cacheRealm addObject:objectChange.updatedCacheObject];
+                [state.cacheRealm addOrUpdateObject:objectChange.updatedCacheObject];
                 
                 // Add the object to the objects array and not just to the Realm!
                 [state.cache.objects addObject:objectChange.updatedCacheObject];
@@ -970,7 +970,7 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
                 [state.cacheRealm deleteObject:objectChange.previousCacheObject];
                 
                 // Add it back in
-                [state.cacheRealm addObject:objectChange.updatedCacheObject];
+                [state.cacheRealm addOrUpdateObject:objectChange.updatedCacheObject];
                 
                 // Add the object to the objects array and not just to the Realm!
                 [state.cache.objects addObject:objectChange.updatedCacheObject];
