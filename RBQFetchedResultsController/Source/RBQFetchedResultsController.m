@@ -1282,9 +1282,11 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
         id<RLMCollection> sectionResults = nil;
         
         if (self.sectionNameKeyPath) {
-            sectionResults = [state.fetchResults objectsWhere:@"%K == %@",
-                              self.sectionNameKeyPath,
-                              section.name];
+	    if (!section.isInvalidated) {
+                sectionResults = [state.fetchResults objectsWhere:@"%K == %@",
+                                  self.sectionNameKeyPath,
+                                  section.name];
+            }
         }
         // We aren't using sections, so just use all results
         else {
@@ -1300,19 +1302,27 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
             // Write change to object index to cache Realm
             [state.cacheRealm beginWriteTransaction];
             
-            section.firstObjectIndex = firstObjectIndex;
-            section.lastObjectIndex = lastObjectIndex;
+            if (section.isInvalidated) {
+                continue;
+            } else {
+                (section.isInvalidated ? nil : section).firstObjectIndex = firstObjectIndex;
+                (section.isInvalidated ? nil : section).lastObjectIndex = lastObjectIndex;
+            }
             
             [state.cacheRealm commitWriteTransaction];
             
             // Get the entire list of all sections after the change
-            [newSections addObject:section];
+            if (!section.isInvalidated) {
+                [newSections addObject:section];
+            }
         }
         // Add to deleted only if this section was already in cache
         // Possible to add a section that has no data (so we don't want to insert or delete it)
         else {
-            if ([state.cache.sections indexOfObject:section] != NSNotFound) {
-                [deletedSections addObject:section];
+            if (!section.isInvalidated) {
+                if ([state.cache.sections indexOfObject:section] != NSNotFound) {
+                    [deletedSections addObject:section];
+                }
             }
         }
     }
