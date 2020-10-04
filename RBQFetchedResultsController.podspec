@@ -23,4 +23,9 @@ Pod::Spec.new do |s|
   s.dependency "Realm", ">=1.0.0"
   s.dependency "RBQSafeRealmObject"
   s.dependency "RealmUtilities"
+
+  s.subspec 'objc-arc-exceptions' do |sp|
+    sp.source_files = 'RBQFetchedResultsController/Source/RBQFetchedResultsController.m'
+    sp.compiler_flags = '-fobjc-arc-exceptions'
+  end
 end

@@ -947,8 +947,10 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
                 {
                     insertIndex = state.cache.sections.count;
                 }
-                [state.cache.sections insertObject:sectionChange.section
-                                           atIndex:insertIndex];
+                @try {
+                    [state.cache.sections insertObject:sectionChange.section
+                                               atIndex:insertIndex];
+                } @catch (NSException *e) {} // Avoid crash when inserting an object that already exists
             }
         }
     }
@@ -989,8 +991,10 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
                 {
                     insertIndex = section.objects.count;
                 }
-                [section.objects insertObject:objectChange.updatedCacheObject
-                                      atIndex:insertIndex];
+                @try {
+                    [section.objects insertObject:objectChange.updatedCacheObject
+                                          atIndex:insertIndex];
+                } @catch (NSException *e) {} // Avoid crash when inserting an object that already exists
                 
                 objectChange.updatedCacheObject.section = section;
             }
