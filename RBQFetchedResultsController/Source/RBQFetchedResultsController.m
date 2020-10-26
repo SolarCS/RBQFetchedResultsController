@@ -387,6 +387,11 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
 
 - (BOOL)performFetch
 {
+    return [self performFetch:YES];
+}
+
+- (BOOL)performFetch:(BOOL)registerChangeNotifications
+{
     if ([self.delegate respondsToSelector:@selector(controllerWillPerformFetch:)]) {
         [self.delegate controllerWillPerformFetch:self];
     }
@@ -407,7 +412,9 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
         }
         
         // Only register for changes after the cache was created!
-        [self registerChangeNotifications];
+        if (registerChangeNotifications) {
+            [self registerChangeNotifications];
+        }
         
         if ([self.delegate respondsToSelector:@selector(controllerDidPerformFetch:)]) {
             [self.delegate controllerDidPerformFetch:self];

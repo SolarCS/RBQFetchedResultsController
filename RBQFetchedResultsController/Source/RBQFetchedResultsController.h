@@ -197,6 +197,18 @@
  *  @return Indicates if the fetch was successful
  */
 - (BOOL)performFetch;
+- (BOOL)performFetch:(BOOL)registerChangeNotifications;
+
+/**
+ *  Register the change notification from RBQRealmNotificationManager
+ *  Is no-op if the change notifications are already registered
+ */
+- (void)registerChangeNotifications;
+
+/**
+ *  Method that unregister change notifications from RBQRealmNotificationManager
+ */
+- (void)unregisterChangeNotifications;
 
 /**
  *  Call this method to force the cache to be rebuilt. 
