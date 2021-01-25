@@ -1087,8 +1087,13 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
         }
         
         NSUInteger count = 0;
-        
+        NSInteger transactionItemsPending = 5000;
         for (RLMObject *object in fetchResults) {
+            if (transactionItemsPending == 0 && [cacheRealm inWriteTransaction]) {
+                [cacheRealm commitWriteTransaction];
+                transactionItemsPending = 5000;
+                [cacheRealm beginWriteTransaction];
+            }
             
             if (sectionNameKeyPath) {
                 
@@ -1145,6 +1150,7 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
             
             // Keep track of the count
             count ++;
+            transactionItemsPending --;
         }
         
         // Set the section name key path, if available
