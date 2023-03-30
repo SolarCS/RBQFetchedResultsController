@@ -661,30 +661,32 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
 
 + (void)deleteDatabaseFilesForConfiguration:(RLMRealmConfiguration *)configuration numRetries:(NSInteger)numRetries
 {
-    NSError *error = nil;
-    BOOL success = [RLMRealm deleteFilesForConfiguration:configuration error:&error];
-    if (success || !error) {
-        NSString *lockPath = nil;
-        if (configuration.inMemoryIdentifier.length > 0) {
-            lockPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:configuration.inMemoryIdentifier] stringByAppendingPathExtension:@"lock"];
-        } else {
-            lockPath = [configuration.fileURL.path stringByAppendingPathExtension:@"lock"];
-        }
-        
-        if (lockPath.length > 0) {
-            NSError *error = nil;
-            BOOL couldRemoveLockFile = [[NSFileManager defaultManager] removeItemAtPath:lockPath error:&error];
-            if (!couldRemoveLockFile && error) {
-                #ifdef DEBUG
-                NSLog(@"Error trying to remove .lock file from database - %@", error);
-                #endif
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *error = nil;
+        BOOL success = [RLMRealm deleteFilesForConfiguration:configuration error:&error];
+        if (success || !error) {
+            NSString *lockPath = nil;
+            if (configuration.inMemoryIdentifier.length > 0) {
+                lockPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:configuration.inMemoryIdentifier] stringByAppendingPathExtension:@"lock"];
+            } else {
+                lockPath = [configuration.fileURL.path stringByAppendingPathExtension:@"lock"];
             }
+            
+            if (lockPath.length > 0) {
+                NSError *error = nil;
+                BOOL couldRemoveLockFile = [[NSFileManager defaultManager] removeItemAtPath:lockPath error:&error];
+                if (!couldRemoveLockFile && error) {
+                    #ifdef DEBUG
+                    NSLog(@"Error trying to remove .lock file from database - %@", error);
+                    #endif
+                }
+            }
+        } else if (error.code == RLMErrorAlreadyOpen && numRetries > 1) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [self deleteDatabaseFilesForConfiguration:configuration numRetries:(numRetries - 1)];
+            });
         }
-    } else if (error.code == RLMErrorAlreadyOpen && numRetries > 1) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self deleteDatabaseFilesForConfiguration:configuration numRetries:(numRetries - 1)];
-        });
-    }
+    });
 }
 
 - (void)dealloc
