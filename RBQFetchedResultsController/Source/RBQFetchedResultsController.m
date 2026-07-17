@@ -1982,49 +1982,53 @@ static void * RBQArrayFetchRequestContext = &RBQArrayFetchRequestContext;
 #pragma mark - Helpers
 
 // Create instance of Realm for internal cache
+// Serialized on self: the cached-realm properties are also read/written from the
+// background change-processing path (-_calculateChangesWithAddedSafeObjects:...),
+// which holds @synchronized(self). @synchronized is recursive, so re-entering here
+// from that path is safe.
 - (RLMRealm *)cacheRealm
 {
-    if (self.cacheName) {
+    @synchronized (self) {
+        if (self.cacheName) {
 
-        if ([NSThread isMainThread] &&
-            self.realmForMainThread) {
-            
-            return self.realmForMainThread;
+            if ([NSThread isMainThread] &&
+                self.realmForMainThread) {
+
+                return self.realmForMainThread;
+            }
+
+            RLMRealm *realm = [RBQFetchedResultsController realmForCacheName:self.cacheName];
+
+            if ([NSThread isMainThread]) {
+
+                self.realmForMainThread = realm;
+            }
+
+            return realm;
         }
-        
-        RLMRealm *realm = [RBQFetchedResultsController realmForCacheName:self.cacheName];
-        
-        if ([NSThread isMainThread]) {
-            
-            self.realmForMainThread = realm;
+        else {
+            RLMRealmConfiguration *inMemoryConfiguration = [RLMRealmConfiguration defaultConfiguration];
+            inMemoryConfiguration.inMemoryIdentifier = [self nameForFetchRequest:self.fetchRequest];
+            inMemoryConfiguration.encryptionKey = nil;
+            inMemoryConfiguration.objectClasses = @[RBQControllerCacheObject.class,
+                                                    RBQObjectCacheObject.class,
+                                                    RBQSectionCacheObject.class];
+
+            RLMRealm *realm = [RLMRealm realmWithConfiguration:inMemoryConfiguration
+                                                         error:nil];
+
+            // Hold onto a strong reference so inMemory realm cache doesn't get deallocated
+            // We don't use the cache since this is deprecated
+            // If the realm path changed (new fetch request then hold onto the new one)
+            if (!self.inMemoryRealm ||
+                ![realm.configuration.fileURL.path.lastPathComponent isEqualToString:self.inMemoryRealm.configuration.fileURL.path.lastPathComponent]) {
+
+                self.inMemoryRealm = realm;
+            }
+
+            return realm;
         }
-        
-        return realm;
     }
-    else {
-        RLMRealmConfiguration *inMemoryConfiguration = [RLMRealmConfiguration defaultConfiguration];
-        inMemoryConfiguration.inMemoryIdentifier = [self nameForFetchRequest:self.fetchRequest];
-        inMemoryConfiguration.encryptionKey = nil;
-        inMemoryConfiguration.objectClasses = @[RBQControllerCacheObject.class,
-                                                RBQObjectCacheObject.class,
-                                                RBQSectionCacheObject.class];
-        
-        RLMRealm *realm = [RLMRealm realmWithConfiguration:inMemoryConfiguration
-                                                     error:nil];
-        
-        // Hold onto a strong reference so inMemory realm cache doesn't get deallocated
-        // We don't use the cache since this is deprecated
-        // If the realm path changed (new fetch request then hold onto the new one)
-        if (!self.inMemoryRealm ||
-            ![realm.configuration.fileURL.path.lastPathComponent isEqualToString:self.inMemoryRealm.configuration.fileURL.path.lastPathComponent]) {
-            
-            self.inMemoryRealm = realm;
-        }
-        
-        return realm;
-    }
-    
-    return nil;
 }
 
 // Retrieve internal cache
